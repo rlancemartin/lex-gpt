@@ -39,7 +39,7 @@ export default function Home() {
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ query })
+      body: JSON.stringify({ query, apiKey })
      });
 
      if (!search_results.ok) {

@@ -8,6 +8,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     // Query 
     const query = req.body.query;
+    const apiKey = req.body.apiKey;
+    process.env.OPENAI_API_KEY = apiKey;
 
     // Vector DB 
       const pinecone = new PineconeClient();
