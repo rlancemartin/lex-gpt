@@ -32,11 +32,27 @@ export default function Home() {
     setAnswer("");
     setChunks([]);
     setLoading(true);
+    
+    // Similarity search for relevant chunks 
+    const search_results = await fetch("/api/search", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ query })
+     });
 
-    // Prompt 
+     if (!search_results.ok) {
+      setLoading(false);
+      throw new Error(search_results.statusText);
+    }
+    const results: LEXChunk[] = await search_results.json();
+    setChunks(results);
+
+    // Prompt for LLM summarization
     const prompt = `You are a helpful assistant that accurately answers queries using Lex Fridman podcast episodes. Use the text provided to form your answer, but avoid copying word-for-word from the posts. Try to use your own words when possible. Keep your answer under 5 sentences. Be accurate, helpful, concise, and clear. Use the following passages to provide an answer to the query: "${query}"`
     
-    // Get response stream 
+    // Get response 
     const answerResponse = await fetch("/api/vectordbqa", {
       method: "POST",
       headers: {
@@ -51,20 +67,6 @@ export default function Home() {
       throw new Error(answerResponse.statusText);
     }
     
-    // Sources 
-    const sourceDocumentsHeader = answerResponse.headers.get("sourceDocuments"); 
-    try {
-      if (sourceDocumentsHeader !== null) {
-        const sourceDocuments = JSON.parse(sourceDocumentsHeader);
-        const results: LEXChunk[] = await sourceDocuments;
-        setChunks(results);
-      } else {
-        console.error("Error: answerResponse header is missing");
-      }
-    } catch (error) {
-      console.error("Error: Failed to parse source documents", error);
-    }
-
     // Answer
     const data = answerResponse.body;
     if (!data) {

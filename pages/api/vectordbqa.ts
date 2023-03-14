@@ -7,45 +7,42 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {};
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-  // try {
+try {
     
+      // Inputs 
       const prompt = req.body.prompt;
       const apiKey = req.body.apiKey;
       process.env.OPENAI_API_KEY = apiKey;
 
-      // Vector DB call
+      // Vector DB
       const pinecone = new PineconeClient();
       await pinecone.init({
         environment: "us-east1-gcp", 
         apiKey: process.env.PINECONE_API_KEY ?? "",
       });
-      const index = pinecone.Index("lex-test");
+      const index = pinecone.Index("lex-gpt");
       const vectorStore = await PineconeStore.fromExistingIndex(
         index,
         new OpenAIEmbeddings()
       );
 
-      // Call LLM 
-      const model = new OpenAIChat({ temperature: 0.0 });
+      // Call LLM and stream output
+      const model = new OpenAIChat({ temperature: 0.0, 
+        streaming: true, 
+        callbackManager: {  
+        handleNewToken(token) {  res.status(200).write(token.replace(/["'\n\r]/g, '')); }, 
+      }});
       const chain = VectorDBQAChain.fromLLM(model, vectorStore);
-      chain.returnSourceDocuments=true;
-      chain.k=7;
+      chain.returnSourceDocuments=false;
+      chain.k=4;
       const responseBody = await chain.call({query: prompt,});
 
-      // Clean up response
-      let answerText = responseBody["text"]; 
-      answerText = answerText.replace(/["'\n\r]/g, ''); 
+      res.end()
       
-      // Return sources as header 
-      type Headers = { [key: string]: string; };
-      const headers: Headers = { "sourceDocuments": JSON.stringify(responseBody["sourceDocuments"]) };
-      Object.keys(headers).forEach(key => {res.setHeader(key, headers[key]);}); 
-      res.status(200).send(answerText); 
-      
-  //} catch (error) {
-  //  console.error(error);
-  //  res.status(500).json("Error");
-  //}
+  } catch (error) {
+    console.error(error);
+    res.status(500).json("Error");
+  }
 };
 
 export default handler;
