@@ -16,11 +16,7 @@ Store embeddings in Pinecone.
 
 ### Search
 
-Use Langchain VectorDBQAChain to embed the user query and perform similarity search on Pinecone embeddings.
-
-Synthesize the answer from relevant chunks with ChatGPT. 
-
-The relevant chunks with metadata (links) are displayed as source documents in the UI.
+Use Langchain VectorDBQAChain to embed the user query and perform similarity search on Pinecone embeddings. Synthesize the answer from relevant chunks with ChatGPT. The relevant chunks with metadata (links) are displayed as source documents in the UI.
 
 ### UI
 
