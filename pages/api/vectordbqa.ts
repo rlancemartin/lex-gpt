@@ -3,6 +3,7 @@ import { OpenAIEmbeddings } from "langchain/embeddings";
 import { PineconeClient } from "@pinecone-database/pinecone";
 import { VectorDBQAChain } from "langchain/chains";
 import { OpenAIChat } from "langchain/llms";
+import { CallbackManager } from "langchain/callbacks";
 import { NextApiRequest, NextApiResponse } from "next";
 
 type Data = {};
@@ -22,8 +23,7 @@ try {
       });
       const index = pinecone.Index("lex-gpt");
       const vectorStore = await PineconeStore.fromExistingIndex(
-        index,
-        new OpenAIEmbeddings()
+        new OpenAIEmbeddings(), {pineconeIndex: index},
       );
 
       // Handling repeat questions
@@ -33,14 +33,14 @@ try {
       // Call LLM and stream output
       const model = new OpenAIChat({ temperature: 0.0, 
         streaming: true, 
-        callbackManager: {  
-        handleNewToken(token) {  
+        callbackManager: CallbackManager.fromHandlers( {  
+         async handleLLMNewToken(token) {  
           answerText += token.replace(/["'\n\r]/g, '');
           if (!Cache.get(prompt))   {
             res.status(200).write(token.replace(/["'\n\r]/g, '')); 
           }
         },
-      },
+      } ),
       });
       const chain = VectorDBQAChain.fromLLM(model, vectorStore);
       chain.returnSourceDocuments=false;

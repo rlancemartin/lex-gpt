@@ -19,10 +19,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
       });
       const index = pinecone.Index("lex-gpt");
       const vectorStore = await PineconeStore.fromExistingIndex(
-        index,
-        new OpenAIEmbeddings()
+        new OpenAIEmbeddings(), {pineconeIndex: index},
       );
-
       // Return chunks to display as references 
       const results = await vectorStore.similaritySearch(query, 4);
       res.status(200).send(results); 
