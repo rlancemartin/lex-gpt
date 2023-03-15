@@ -14,6 +14,7 @@
   "dependencies": {
     "@dqbd/tiktoken": "^0.4.0",
     "@huggingface/inference": "^1.5.2",
+    "@microsoft/fetch-event-source": "^2.0.1",
     "@next/font": "^13.2.3",
     "@pinecone-database/pinecone": "^0.0.10",
     "@tabler/icons-react": "^2.7.0",

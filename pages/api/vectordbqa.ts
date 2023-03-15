@@ -4,12 +4,12 @@ import { PineconeClient } from "@pinecone-database/pinecone";
 import { VectorDBQAChain } from "langchain/chains";
 import { OpenAIChat } from "langchain/llms";
 import { CallbackManager } from "langchain/callbacks";
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
 
-type Data = {};
-const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
-try {
-    
+export default async function handler(
+  req: NextApiRequest, 
+  res: NextApiResponse
+  ) {
       // Inputs 
       const prompt = req.body.prompt;
       const apiKey = req.body.apiKey;
@@ -30,6 +30,21 @@ try {
       const Cache = require('./cache');
       let answerText = '';
 
+      // Send data 
+      res.writeHead(200, {
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache, no-transform",
+        Connection: "keep-alive",
+      });
+
+      const sendData = (data: string) => {
+        if (res.writableEnded) {
+          console.log("Response has already ended, cannot write more data");
+          return;
+        }
+        res.write(`data: ${data}\n\n`);
+      };
+      
       // Call LLM and stream output
       const model = new OpenAIChat({ temperature: 0.0, 
         streaming: true, 
@@ -37,27 +52,27 @@ try {
          async handleLLMNewToken(token) {  
           answerText += token.replace(/["'\n\r]/g, '');
           if (!Cache.get(prompt))   {
-            res.status(200).write(token.replace(/["'\n\r]/g, '')); 
-          }
+            // sendData(JSON.stringify({ data: "TEST SEND IN CALLBACK:" }));
+            // console.log("token:")
+            // console.log(token)
+            // console.log(typeof token)
+            sendData(JSON.stringify({ data: token.replace(/["'\n\r]/g, '') }));
+           }
         },
       } ),
       });
       const chain = VectorDBQAChain.fromLLM(model, vectorStore);
       chain.returnSourceDocuments=false;
       chain.k=4;
-      const responseBody = await chain.call({query: prompt,});
 
-      if (Cache.get(prompt)) {
-        res.status(200).send(Cache.get(prompt)); 
-      } else {
-        Cache.set(prompt, answerText);
+      try {
+        await chain.call({
+          query: prompt,
+        });
+      } catch (err) {
+        console.error(err);
+      } finally {
+        sendData(JSON.stringify({data: "DONE"}) );
         res.end();
-      }
-      
-  } catch (error) {
-    console.error(error);
-    res.status(500).json("Error");
-  }
-};
-
-export default handler;
+      }     
+    }
