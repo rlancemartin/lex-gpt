@@ -26,18 +26,33 @@ try {
         new OpenAIEmbeddings()
       );
 
+      // Handling repeat questions
+      const Cache = require('./cache');
+      let answerText = '';
+
       // Call LLM and stream output
       const model = new OpenAIChat({ temperature: 0.0, 
         streaming: true, 
         callbackManager: {  
-        handleNewToken(token) {  res.status(200).write(token.replace(/["'\n\r]/g, '')); }, 
-      }});
+        handleNewToken(token) {  
+          answerText += token.replace(/["'\n\r]/g, '');
+          if (!Cache.get(prompt))   {
+            res.status(200).write(token.replace(/["'\n\r]/g, '')); 
+          }
+        },
+      },
+      });
       const chain = VectorDBQAChain.fromLLM(model, vectorStore);
       chain.returnSourceDocuments=false;
       chain.k=4;
       const responseBody = await chain.call({query: prompt,});
 
-      res.end()
+      if (Cache.get(prompt)) {
+        res.status(200).send(Cache.get(prompt)); 
+      } else {
+        Cache.set(prompt, answerText);
+        res.end();
+      }
       
   } catch (error) {
     console.error(error);
