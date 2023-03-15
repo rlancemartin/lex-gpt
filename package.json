@@ -27,7 +27,7 @@
     "eslint-config-next": "13.2.1",
     "eventsource-parser": "^0.1.0",
     "hnswlib-node": "^1.4.1",
-    "langchain": "^0.0.34",
+    "langchain": "^0.0.35",
     "memory-cache": "^0.2.0",
     "next": "13.2.1",
     "react": "18.2.0",
