@@ -14,19 +14,27 @@ Text splitting and OpenAI embeddings done via Langchain in scripts/get_data.ipyn
 
 Store embeddings in Pinecone.
 
-### Search
+## Search
 
-Use Langchain VectorDBQAChain to embed the user query and perform similarity search on Pinecone embeddings. Synthesize the answer from relevant chunks with ChatGPT. The relevant chunks with metadata (links) are displayed as source documents in the UI.
+Use Langchain VectorDBQAChain to embed the user query and perform similarity search on Pinecone embeddings. 
 
-### UI
+Synthesize the answer from relevant chunks with ChatGPT. 
 
-This build on the excellent: https://github.com/mckaywrigley/wait-but-why-gpt
+The relevant chunks with metadata (links) are displayed as source documents in the UI.
+
+This builds on the excellent UI from: https://github.com/mckaywrigley/wait-but-why-gpt
+
+## Deploy
+
+Deploy to Vercel to test edge function and streaming with Langchain (credit @nfcampos).
 
 ## Credits
 
-Thanks to [Mckay Wrigley](https://twitter.com/mckaywrigley) for his work on the UI and app design.
+Thanks to [Mckay Wrigley](https://twitter.com/mckaywrigley) for open-sourcing his UI.
+ 
+Thanks to Lex Fridman for the excellent podcast.
 
-Of course, thanks for Lex Fridman for the excellent podcast and Karapthy for the Whisper transcriptions.
+Thanks to Karapthy for the Whisper transcriptions.
 
 ## Contact
 
