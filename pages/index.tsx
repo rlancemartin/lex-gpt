@@ -53,11 +53,7 @@ export default function Home() {
     // Prompt for LLM summarization
     const prompt = `You are a helpful assistant that accurately answers queries using Lex Fridman podcast episodes. Use the text provided to form your answer, but avoid copying word-for-word from the posts. Try to use your own words when possible. Keep your answer under 5 sentences. Be accurate, helpful, concise, and clear. Use the following passages to provide an answer to the query: "${query}"`
     const ctrl = new AbortController();
-
-    // 1/  etchEventSource 
-    // "TEST SEND IN CALLBACK" is piped through to client. 
-    // But token is not. This is very strage. Token is string (confirmed).
-    /*
+    
     fetchEventSource("/api/vectordbqa",  {
       method: "POST",
       headers: {
@@ -67,114 +63,17 @@ export default function Home() {
         prompt, 
         apiKey 
       }),
-      signal: ctrl.signal,
-      onmessage: (event) => {
-        if (event.data === "[DONE]") {
-          console.log("DONE!")
-          setLoading(false);
-          ctrl.abort();
-        } else {
-          // Here I only see TEST SEND! returnd and it apepars to make many calls to the API
-          // Console is spammed w/ TEST SEND!  
-          console.log("Recived event data!")
-          console.log(event)
-          console.log(event)
-          console.log(JSON.parse(event.data))
-          const answerResponse = JSON.parse(event.data);
-          const data = answerResponse.body;
-          // Decoding 
-          setLoading(false);
-          const reader = data.getReader();
-          const decoder = new TextDecoder();
-          let done = false;
-          while (!done) {
-            const { value, done: doneReading } = reader.read();
-            done = doneReading;
-            const chunkValue = decoder.decode(value);
-            setAnswer((prev) => prev + chunkValue);
-          }
-        }
-      }
-     } 
-    );   
-    */
-         
-    // 2/ Initial code w/ hacky parsing of SSE events (not desired)
-    const answerResponse = await fetch("/api/vectordbqa", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ prompt, apiKey })
-     });
-    
-    // Check answer 
-    if (!answerResponse.ok) {
-      setLoading(false);
-      throw new Error(answerResponse.statusText);
-    }
-    
-    // Render sources 
-    setLoading(false);
-
-    // ReadableStream object
-    const data = answerResponse.body;
-    
-    if (!data) {
-      return;
-    }
-    
-    const reader = data.getReader();
-    const decoder = new TextDecoder();
-
-    // Parse SSE events
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) {
-        break;
-      }
-      
-      // Convert the stream into a string
-      const message = decoder.decode(value);
-      
-      // Split the message into separate events
-      const events = message.split('\n\n');
-      
-      // Parse each event as an SSE message
-      for (const event of events) {
-        if (event) {
-          try {
-          const eventData = JSON.parse(event.substring(6));
-          const data = eventData.data;
-          if (data === "DONE") {
+      onmessage: (event) => { 
+        setLoading(false);
+        const data = JSON.parse(event.data);
+        if (data.data === "DONE") {
           // Complete 
-          } else {
-          // console.log('Split event:', data);
-          setAnswer((prev) => prev + data);  
-         }
-        } catch (e) {
-          console.error('Parse error:', e);
-        }      
-       }
-      }
-    }
-
-    /*
-    // Older decoding
-    let done = false;
-    while (!done) {
-      const { value, done: doneReading } = await reader.read();
-      done = doneReading;
-      // Decode to string 
-      const chunkValue = decoder.decode(value);
-      // Split the message into separate events
-      // const events = chunkValue.split('\n\n');
-      setAnswer((prev) => prev + chunkValue);
-    }
-    */
-
+        } else {
+          // Stream text
+          setAnswer((prev) => prev + data.data);
+        }
+      }});
   };
-  
   
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {

@@ -6,6 +6,10 @@ import { OpenAIChat } from "langchain/llms";
 import { CallbackManager } from "langchain/callbacks";
 import type { NextApiRequest, NextApiResponse } from "next";
 
+// export const config = {
+//  runtime: "edge"
+//};
+
 export default async function handler(
   req: NextApiRequest, 
   res: NextApiResponse
@@ -28,9 +32,8 @@ export default async function handler(
 
       // Handling repeat questions
       const Cache = require('./cache');
-      let answerText = '';
 
-      // Send data 
+      // Send data in SSE stream 
       res.writeHead(200, {
         "Content-Type": "text/event-stream",
         "Cache-Control": "no-cache, no-transform",
@@ -49,18 +52,13 @@ export default async function handler(
       const model = new OpenAIChat({ temperature: 0.0, 
         streaming: true, 
         callbackManager: CallbackManager.fromHandlers( {  
-         async handleLLMNewToken(token) {  
-          answerText += token.replace(/["'\n\r]/g, '');
-          if (!Cache.get(prompt))   {
-            // sendData(JSON.stringify({ data: "TEST SEND IN CALLBACK:" }));
-            // console.log("token:")
-            // console.log(token)
-            // console.log(typeof token)
+            async handleLLMNewToken(token) {  
             sendData(JSON.stringify({ data: token.replace(/["'\n\r]/g, '') }));
-           }
         },
-      } ),
-      });
+      }),
+      }
+      );
+
       const chain = VectorDBQAChain.fromLLM(model, vectorStore);
       chain.returnSourceDocuments=false;
       chain.k=4;
