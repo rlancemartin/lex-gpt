@@ -1,11 +1,9 @@
 # trascribe audio 
 import time,os
 import logging
+import whisper 
 import numpy as np
 import pandas as pd
-import whisper 
-
-### Run this on a machine w/ GPU ### 
 
 # Set up logger
 logging.basicConfig(filename='whisper.log', filemode='w', level=logging.DEBUG)
@@ -14,7 +12,8 @@ logging.basicConfig(filename='whisper.log', filemode='w', level=logging.DEBUG)
 new_ep=pd.read_csv("audio_transcription/episodes.csv",index_col=None)
 
 # Run whisper on each audio file
-for ix in new_ep.index[2:]:
+for ix in new_ep.index:
+
     # get data 
     ep_number=int(new_ep.loc[ix,'number'])
     print("EPISODE: %s"%ep_number)
@@ -28,11 +27,11 @@ for ix in new_ep.index[2:]:
     logging.info(f"Processing file: {audio_file_path}")
     start_time = time.time()
 
-    # Load Whisper model and transcribe audio file
+    # load Whisper model and transcribe audio file
     model = whisper.load_model("medium")
     result = model.transcribe(audio_file_path)
     
-    # Write
+    # write
     with open(out_file_path, "w") as f:
         for seg in result['segments']:
             ts = np.round(seg['start'],1)
