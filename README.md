@@ -1,32 +1,37 @@
 # Lex GPT
 
-AI-powered search for Lex Fridman podcast.
+This app enables AI-powered search for Lex Fridman podcast.
 
-This is a testbed for exploring Langchain functionality. 
+This is also a testbed for exploring Langchain functionality. 
 
 ## Dataset
  
-Start with episode transcriptions from Whisper via @karpathy for first 325 episodes:
-
+Scrape ep 1-325 Whisper transcriptions via @karpathy for first 325 episodes:
+ 
 https://karpathy.ai/lexicap/index.html
 
-Text splitting and OpenAI embeddings done via Langchain in scripts/get_data.ipynb.
+Trascribe remaining episodes (through episode 365) with Whisper.
+ 
+Transcribed data is split / embedded (Pinecone) with Langchain.
 
-Store embeddings in Pinecone.
+All steps outlined in: `scripts/get_data.ipynb`
 
 ## Search
 
-Use Langchain VectorDBQAChain to embed the user query and perform similarity search on Pinecone embeddings. 
+Use Langchain `VectorDBQAChain` to: 
+* Embed the user query
+* Perform similarity search on Pinecone embeddings
+* Synthesize the answer from relevant chunks with `GPT 3.5`
 
-Synthesize the answer from relevant chunks with ChatGPT. 
+## Search
 
-The relevant chunks with metadata (links) are displayed as source documents in the UI.
-
-This builds on the excellent UI from: https://github.com/mckaywrigley/wait-but-why-gpt
+Relevant chunks with metadata (links) are displayed as source documents.
+ 
+This builds on the excellent UI from https://github.com/mckaywrigley/wait-but-why-gpt.
 
 ## Deploy
 
-Deploy to Vercel to test edge function and streaming with Langchain (credit @nfcampos).
+Deploy to Vercel.
 
 ## Credits
 
