@@ -3,9 +3,9 @@ import { OpenAIEmbeddings } from "langchain/embeddings";
 import { PineconeClient } from "@pinecone-database/pinecone";
 import { NextApiRequest, NextApiResponse } from "next";
 
-//export const config = {
-//  runtime: "edge"
-// };
+export const config = {
+  runtime: "edge"
+};
 
 type Data = {};
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
