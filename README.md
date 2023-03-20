@@ -31,7 +31,13 @@ This builds on the excellent UI from https://github.com/mckaywrigley/wait-but-wh
 
 ## Deploy
 
-Deploy to Vercel.
+Note: the app that supports streaming is deployed to fly.io: https://lex-gpt.fly.dev/
+
+This is because Vercel requires edge functions for streaming.
+
+We are working on getting edge functions working with Langchain.
+
+In the meantime, use https://lex-gpt.fly.dev/ for the more performant app. 
 
 ## Credits
 
