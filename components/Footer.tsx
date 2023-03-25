@@ -10,25 +10,25 @@ export const Footer: FC = () => {
         Created by
         <a
           className="hover:opacity-50 mx-1"
-          href="https://twitter.com/RLanceMartin"
+          href="https://yentingl.com"
           target="_blank"
           rel="noreferrer"
         >
-          Lance Martin
+          林彥廷
         </a>
         based on
         <a
           className="hover:opacity-50 ml-1"
-          href="https://twitter.com/lexfridman"
+          href="https://www.facebook.com/mengkung.hsieh.3"
           target="_blank"
           rel="noreferrer"
         >
-          Lex Fridman
+          Gooaye
         </a>
         {`'s blog`}
         <a
           className="hover:opacity-50 ml-1"
-          href="https://lexfridman.com/podcast/"
+          href="https://linktr.ee/gooaye"
           target="_blank"
           rel="noreferrer"
         >
@@ -40,7 +40,7 @@ export const Footer: FC = () => {
       <div className="flex space-x-4">
         <a
           className="flex items-center hover:opacity-50"
-          href="https://twitter.com/RLanceMartin"
+          href="https://yentingl.com"
           target="_blank"
           rel="noreferrer"
         >
@@ -49,7 +49,7 @@ export const Footer: FC = () => {
 
         <a
           className="flex items-center hover:opacity-50"
-          href="https://github.com/PineappleExpress808/lex-gpt"
+          href="https://github.com/adamlin120/lex-gpt"
           target="_blank"
           rel="noreferrer"
         >

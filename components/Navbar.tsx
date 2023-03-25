@@ -9,7 +9,7 @@ export const Navbar: FC = () => {
       <div className="font-bold text-2xl flex items-center">
         <a
           className="flex hover:opacity-50 items-center"
-          href="https://wait-but-why-gpt.vercel.app"
+          href="https://gooaye.yentingl.com"
         >
           <Image
             className="hidden sm:flex"
@@ -17,17 +17,17 @@ export const Navbar: FC = () => {
             alt="The Network State GPT"
             height={40}
           />
-          <div className="ml-2">Lex GPT</div>
+          <div className="ml-2">Gooaye GPT</div>
         </a>
       </div>
       <div>
         <a
           className="flex items-center hover:opacity-50"
-          href="https://lexfridman.com/podcast/"
+          href="https://linktr.ee/gooaye"
           target="_blank"
           rel="noreferrer"
         >
-          <div className="hidden sm:flex">lexfridman.com</div>
+          <div className="hidden sm:flex">linktr.ee/gooaye</div>
 
           <IconExternalLink
             className="ml-1"

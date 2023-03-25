@@ -22,11 +22,11 @@ export default function Home() {
   const handleAnswer = async () => {
     
     if (!apiKey) {
-      alert("Please enter an API key.");
+      alert("請輸入 OpenAI API 金鑰");
       return;
     }
     if (!query) {
-      alert("Please enter a query.");
+      alert("請輸入對話");
       return;
     }
     
@@ -51,7 +51,7 @@ export default function Home() {
     setChunks(results);
 
     // Prompt for LLM summarization
-    const prompt = `You are a helpful assistant that accurately answers queries using Lex Fridman podcast episodes. Use the text provided to form your answer, but avoid copying word-for-word from the posts. Try to use your own words when possible. Keep your answer under 5 sentences. Be accurate, helpful, concise, and clear. Use the following passages to provide an answer to the query: "${query}"`
+    const prompt = `您是一個有幫助的助手，可以使用股癌的播客集準確回答查詢。使用提供的文本來構建答案，但盡量避免從文章中逐字逐句地複製。在可能的情況下，請使用自己的詞語。將您的答案保持在 5 句以下。答案要準確、有幫助、簡明明確。使用以下段落來回答查詢："${query}"`
     const ctrl = new AbortController();
     
     fetchEventSource("/api/vectordbqa",  {
@@ -84,7 +84,7 @@ export default function Home() {
   // Save user API setting 
   const handleSave = () => {
     if (apiKey.length !== 51) {
-      alert("Please enter a valid API key.");
+      alert("請輸入有效的 API 金鑰");
       return;
     }
 
@@ -109,10 +109,10 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Lex GPT</title>
+        <title>Gooaye GPT</title>
         <meta
           name="description"
-          content={`AI-powered search and chat for the Lex Fridman podcast. `}
+          content={`Gooaye 股癌播客的 AI 強化搜索和聊天。`}
         />
         <meta
           name="viewport"
@@ -180,7 +180,7 @@ export default function Home() {
                   ref={inputRef}
                   className="h-12 w-full rounded-full border border-zinc-600 pr-12 pl-11 focus:border-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-800 sm:h-16 sm:py-2 sm:pr-16 sm:pl-16 sm:text-lg"
                   type="text"
-                  placeholder="What is the path to AGI?"
+                  placeholder="菜雞投資第一課"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -285,7 +285,7 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              <div className="mt-6 text-center text-lg">{`AI-powered search and chat for the Lex Fridman podcast.`}</div>
+              <div className="mt-6 text-center text-lg">{`Gooaye 播客的 AI 強化搜索和聊天`}</div>
             )}
           </div>
         </div>
