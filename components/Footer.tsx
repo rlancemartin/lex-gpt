@@ -10,29 +10,20 @@ export const Footer: FC = () => {
         Created by
         <a
           className="hover:opacity-50 mx-1"
-          href="https://yentingl.com"
+          href="https://d8ai.com"
           target="_blank"
           rel="noreferrer"
         >
-          Yenting Lin
+          D8AI
         </a>
         based on
         <a
           className="hover:opacity-50 ml-1"
-          href="https://www.facebook.com/mengkung.hsieh.3"
+          href="https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=G0340080"
           target="_blank"
           rel="noreferrer"
         >
-          Gooaye
-        </a>
-        {`'s`}
-        <a
-          className="hover:opacity-50 ml-1"
-          href="https://linktr.ee/gooaye"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Podcast
+          全國法規資料庫
         </a>
         .
       </div>
@@ -49,7 +40,7 @@ export const Footer: FC = () => {
 
         <a
           className="flex items-center hover:opacity-50"
-          href="https://github.com/adamlin120/lex-gpt"
+          href="https://d8ai.com"
           target="_blank"
           rel="noreferrer"
         >

@@ -9,7 +9,7 @@ export const Navbar: FC = () => {
       <div className="font-bold text-2xl flex items-center">
         <a
           className="flex hover:opacity-50 items-center"
-          href="https://gooaye.yentingl.com"
+          href="https://tax.yentingl.com"
         >
           <Image
             className="hidden sm:flex"
@@ -23,11 +23,11 @@ export const Navbar: FC = () => {
       <div>
         <a
           className="flex items-center hover:opacity-50"
-          href="https://linktr.ee/gooaye"
+          href="https://d8ai.com"
           target="_blank"
           rel="noreferrer"
         >
-          <div className="hidden sm:flex">linktr.ee/gooaye</div>
+          <div className="hidden sm:flex">d8ai.com</div>
 
           <IconExternalLink
             className="ml-1"
