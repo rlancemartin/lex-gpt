@@ -51,7 +51,7 @@ export default function Home() {
     setChunks(results);
 
     // Prompt for LLM summarization
-    const prompt = `您是一個有幫助的助手，可以使用股癌的播客集準確回答查詢。使用提供的文本來構建答案，但盡量避免從文章中逐字逐句地複製。在可能的情況下，請使用自己的詞語。將您的答案保持在 5 句以下。答案要準確、有幫助、簡明明確。使用以下段落來回答查詢："${query}"`
+    const prompt = `您是一個有幫助的助手，可以使用台灣全國法規資料庫準確回答查詢。使用提供的文本來構建答案，但盡量避免從文章中逐字逐句地複製。在可能的情況下，請使用自己的詞語。將您的答案保持在 5 句以下。答案要準確、有幫助、簡明明確。使用以下段落來回答查詢："${query}"`
     const ctrl = new AbortController();
     
     fetchEventSource("/api/vectordbqa",  {
@@ -109,10 +109,10 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Gooaye GPT</title>
+        <title>Business Tax GPT</title>
         <meta
           name="description"
-          content={`Gooaye 股癌播客的 AI 聊天。`}
+          content={`營業稅法問答`}
         />
         <meta
           name="viewport"
@@ -284,7 +284,7 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              <div className="mt-6 text-center text-lg">{`好現在進入QA時間`}</div>
+              <div className="mt-6 text-center text-lg">{`營業稅法問答`}</div>
             )}
           </div>
         </div>
