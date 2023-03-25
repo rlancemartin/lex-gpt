@@ -112,7 +112,7 @@ export default function Home() {
         <title>Gooaye GPT</title>
         <meta
           name="description"
-          content={`Gooaye 股癌播客的 AI 強化搜索和聊天。`}
+          content={`Gooaye 股癌播客的 AI 聊天。`}
         />
         <meta
           name="viewport"
@@ -189,7 +189,7 @@ export default function Home() {
               </div>
             ) : (
               <div className="text-center font-bold text-3xl mt-7">
-                請在設置中輸入您的
+                請在設定中輸入您的
                 <a
                   className="mx-2 underline hover:opacity-50"
                   href="https://openai.com/product"
@@ -284,7 +284,7 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              <div className="mt-6 text-center text-lg">{`Gooaye 播客的 AI 強化搜索和聊天`}</div>
+              <div className="mt-6 text-center text-lg">{`好現在進入QA時間`}</div>
             )}
           </div>
         </div>
