@@ -189,14 +189,13 @@ export default function Home() {
               </div>
             ) : (
               <div className="text-center font-bold text-3xl mt-7">
-                Please enter your
+                請在設置中輸入您的
                 <a
                   className="mx-2 underline hover:opacity-50"
                   href="https://openai.com/product"
                 >
-                  OpenAI API key
+                  OpenAI API 金鑰
                 </a>
-                in settings.
               </div>
             )}
 

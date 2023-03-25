@@ -14,7 +14,7 @@ export const Footer: FC = () => {
           target="_blank"
           rel="noreferrer"
         >
-          林彥廷
+          Yenting Lin
         </a>
         based on
         <a
@@ -25,7 +25,7 @@ export const Footer: FC = () => {
         >
           Gooaye
         </a>
-        {`'s blog`}
+        {`'s`}
         <a
           className="hover:opacity-50 ml-1"
           href="https://linktr.ee/gooaye"
