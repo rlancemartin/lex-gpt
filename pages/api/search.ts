@@ -18,10 +18,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
     // Vector DB 
       const pinecone = new PineconeClient();
       await pinecone.init({
-        environment: "us-east1-gcp", 
+        environment: "us-west4-gcp",
         apiKey: process.env.PINECONE_API_KEY ?? "",
       });
-      const index = pinecone.Index("lex-gpt");
+      const index = pinecone.Index("tax-gpt");
       const vectorStore = await PineconeStore.fromExistingIndex(
         new OpenAIEmbeddings(), {pineconeIndex: index},
       );
