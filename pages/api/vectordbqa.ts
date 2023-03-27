@@ -22,7 +22,7 @@ export default async function handler(
       // Vector DB
       const pinecone = new PineconeClient();
       await pinecone.init({
-        environment: "us-east1-gcp", 
+        environment: "us-west4-gcp",
         apiKey: process.env.PINECONE_API_KEY ?? "",
       });
       const index = pinecone.Index("tax-gpt");
