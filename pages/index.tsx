@@ -51,7 +51,7 @@ export default function Home() {
     setChunks(results);
 
     // Prompt for LLM summarization
-    const prompt = `使用以下法規片段來回答用戶的問題。如果您不知道答案，只需說不知道即可，不要試圖編造答案。將您的答案保持在 5 句以下。答案要是繁體中文、要準確、有幫助、簡明明確。使用以下段落來回答查詢："${query}"`
+    const prompt = `使用以下法規片段來回答用戶的問題。如果您不知道答案，只需說不知道即可，不要試圖編造答案。將您的答案保持在五句以下。答案要是繁體中文、要準確、有幫助、簡明明確。使用以下段落來回答查詢："${query}"`
     const ctrl = new AbortController();
     
     fetchEventSource("/api/vectordbqa",  {
