@@ -226,7 +226,7 @@ export default function Home() {
                           <div className="flex items-center">
                             <Image
                               className="rounded-lg"
-                              src={"/"+chunk.metadata.id+".jpg"}
+                              src={"/law_site.png"}
                               width={103}
                               height={70}
                               alt={chunk.metadata.title}
