@@ -1,0 +1,6 @@
+pinecone-client==2.2.1
+langchain==0.0.123
+openai
+chromadb
+pandas
+numpy

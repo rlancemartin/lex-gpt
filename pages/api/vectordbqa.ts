@@ -61,7 +61,7 @@ export default async function handler(
 
       const chain = VectorDBQAChain.fromLLM(model, vectorStore);
       chain.returnSourceDocuments=false;
-      chain.k=3;
+      chain.k=6;
 
       try {
         await chain.call({

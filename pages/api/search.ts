@@ -26,7 +26,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
         new OpenAIEmbeddings(), {pineconeIndex: index},
       );
       // Return chunks to display as references 
-      const results = await vectorStore.similaritySearch(query, 3);
+      const results = await vectorStore.similaritySearch(query, 6);
       res.status(200).send(results); 
     }
 
