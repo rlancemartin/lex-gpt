@@ -51,7 +51,7 @@ export default function Home() {
     setChunks(results);
 
     // Prompt for LLM summarization
-    const prompt = `您是一個有幫助的助手，可以使用台灣全國法規資料庫準確回答查詢。使用提供的文本來構建答案，但盡量避免從文章中逐字逐句地複製。在可能的情況下，請使用自己的詞語。將您的答案保持在 5 句以下。答案要準確、有幫助、簡明明確。使用以下段落來回答查詢："${query}"`
+    const prompt = `您是一個有幫助的助手，可以使用台灣全國法規資料庫準確回答查詢。使用提供的文本來構建答案，但盡量避免從文章中逐字逐句地複製。在可能的情況下，請使用自己的詞語。將您的答案保持在 5 句以下。答案要是繁體中文、要準確、有幫助、簡明明確。使用以下段落來回答查詢："${query}"`
     const ctrl = new AbortController();
     
     fetchEventSource("/api/vectordbqa",  {
