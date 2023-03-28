@@ -227,7 +227,7 @@ export default function Home() {
                             <Image
                               className="rounded-lg"
                               src={"/law_site.png"}
-                              width={103}
+                              width={70}
                               height={70}
                               alt={chunk.metadata.title}
                             />
