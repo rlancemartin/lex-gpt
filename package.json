@@ -12,7 +12,7 @@
     "images": "tsx scripts/images.ts"
   },
   "dependencies": {
-    "@dqbd/tiktoken": "^0.4.0",
+    "@dqbd/tiktoken": "^1.0.2",
     "@huggingface/inference": "^1.5.2",
     "@microsoft/fetch-event-source": "^2.0.1",
     "@next/font": "^13.2.3",
@@ -28,7 +28,7 @@
     "eslint-config-next": "13.2.1",
     "eventsource-parser": "^0.1.0",
     "hnswlib-node": "^1.4.1",
-    "langchain": "^0.0.35",
+    "langchain": "^0.0.44",
     "memory-cache": "^0.2.0",
     "next": "13.2.1",
     "react": "18.2.0",
