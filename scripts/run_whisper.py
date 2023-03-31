@@ -21,7 +21,7 @@ for ix in new_ep.index:
 
     # get audio 
     audio_file_path='audio/%s.m4a'%str(ep_number)
-    out_file_path='audio_transcription/"0"+%s.txt'%str(ep_number)
+    out_file_path='audio_transcription/0%s.txt'%str(ep_number)
 
     print(f"Processing file: {audio_file_path}")
     logging.info(f"Processing file: {audio_file_path}")
