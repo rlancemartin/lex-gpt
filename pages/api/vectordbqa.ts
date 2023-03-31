@@ -6,18 +6,12 @@ import { OpenAIChat } from "langchain/llms";
 import { CallbackManager } from "langchain/callbacks";
 import type { NextApiRequest, NextApiResponse } from "next";
 
-// export const config = {
-//  runtime: "edge"
-//};
-
 export default async function handler(
   req: NextApiRequest, 
   res: NextApiResponse
   ) {
       // Inputs 
       const prompt = req.body.prompt;
-      const apiKey = req.body.apiKey;
-      process.env.OPENAI_API_KEY = apiKey;
 
       // Vector DB
       const pinecone = new PineconeClient();
@@ -29,9 +23,6 @@ export default async function handler(
       const vectorStore = await PineconeStore.fromExistingIndex(
         new OpenAIEmbeddings(), {pineconeIndex: index},
       );
-
-      // Handling repeat questions
-      const Cache = require('./cache');
 
       // Send data in SSE stream 
       res.writeHead(200, {

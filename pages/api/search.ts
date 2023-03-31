@@ -3,17 +3,11 @@ import { OpenAIEmbeddings } from "langchain/embeddings";
 import { PineconeClient } from "@pinecone-database/pinecone";
 import { NextApiRequest, NextApiResponse } from "next";
 
-//export const config = {
-//  runtime: "edge"
-// };
-
 type Data = {};
 const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
 
     // Query 
     const query = req.body.query;
-    const apiKey = req.body.apiKey;
-    process.env.OPENAI_API_KEY = apiKey;
 
     // Vector DB 
       const pinecone = new PineconeClient();
