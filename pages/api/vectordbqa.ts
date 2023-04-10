@@ -1,17 +1,20 @@
-import { PineconeStore } from "langchain/vectorstores";
-import { OpenAIEmbeddings } from "langchain/embeddings";
+import { PineconeStore } from "langchain/vectorstores/pinecone"
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeClient } from "@pinecone-database/pinecone";
 import { VectorDBQAChain } from "langchain/chains";
-import { OpenAIChat } from "langchain/llms";
+import { ChatOpenAI } from "langchain/chat_models/openai";
 import { CallbackManager } from "langchain/callbacks";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-export default async function handler(
-  req: NextApiRequest, 
-  res: NextApiResponse
-  ) {
+export const config = {
+  runtime: "edge"
+};
+export default async function handler(req: NextRequest)
+{ 
+
       // Inputs 
-      const prompt = req.body.prompt;
+      const { prompt } = (await req.json()) as { prompt: string; };
 
       // Vector DB
       const pinecone = new PineconeClient();
@@ -19,49 +22,47 @@ export default async function handler(
         environment: "us-east1-gcp", 
         apiKey: process.env.PINECONE_API_KEY ?? "",
       });
+
       const index = pinecone.Index("lex-gpt");
       const vectorStore = await PineconeStore.fromExistingIndex(
         new OpenAIEmbeddings(), {pineconeIndex: index},
       );
 
-      // Send data in SSE stream 
-      res.writeHead(200, {
-        "Content-Type": "text/event-stream",
-        "Cache-Control": "no-cache, no-transform",
-        Connection: "keep-alive",
+      // Call LLM and stream output
+      const encoder = new TextEncoder();
+      const stream = new TransformStream();
+      const writer = stream.writable.getWriter();
+      const llm = new ChatOpenAI({
+        temperature: 0.0,
+        streaming: true,
+        callbackManager: CallbackManager.fromHandlers({
+          handleLLMNewToken: async (token) => {
+            await writer.ready;
+            await writer.write(encoder.encode(`data: ${token.replace(/["'\n\r]/g,'')}\n\n`));
+          },
+          handleLLMEnd: async () => {
+            await writer.ready;
+            await writer.close();
+          },
+          handleLLMError: async (e) => {
+            await writer.ready;
+            await writer.abort(e);
+          },
+        }),
       });
 
-      const sendData = (data: string) => {
-        if (res.writableEnded) {
-          console.log("Response has already ended, cannot write more data");
-          return;
-        }
-        res.write(`data: ${data}\n\n`);
-      };
-      
-      // Call LLM and stream output
-      const model = new OpenAIChat({ temperature: 0.0, 
-        streaming: true, 
-        callbackManager: CallbackManager.fromHandlers( {  
-            async handleLLMNewToken(token) {  
-            sendData(JSON.stringify({ data: token.replace(/["'\n\r]/g, '') }));
-        },
-      }),
-      }
-      );
-
-      const chain = VectorDBQAChain.fromLLM(model, vectorStore);
+      const chain = VectorDBQAChain.fromLLM(llm, vectorStore);
       chain.returnSourceDocuments=false;
       chain.k=4;
 
-      try {
-        await chain.call({
-          query: prompt,
-        });
-      } catch (err) {
-        console.error(err);
-      } finally {
-        sendData(JSON.stringify({data: "DONE"}) );
-        res.end();
-      }     
-    }
+      chain.call({
+        query: prompt,
+      }).catch(console.error);
+
+      return new NextResponse(stream.readable, {
+        headers: {
+          "Content-Type": "text/event-stream",
+          "Cache-Control": "no-cache",
+        },
+      });
+  }

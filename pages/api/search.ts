@@ -1,5 +1,5 @@
-import { PineconeStore } from "langchain/vectorstores";
-import { OpenAIEmbeddings } from "langchain/embeddings";
+import { PineconeStore } from "langchain/vectorstores/pinecone"
+import { OpenAIEmbeddings } from "langchain/embeddings/openai";
 import { PineconeClient } from "@pinecone-database/pinecone";
 import { NextApiRequest, NextApiResponse } from "next";
 
