@@ -57,14 +57,14 @@ export default function Home() {
       body: JSON.stringify({  prompt }),
       onmessage: (event) => { 
         setLoading(false);
-        const data = JSON.parse(event.data);
-        if (data.data === "DONE") {
+        if (event.data === "DONE") {
           // Complete 
         } else {
           // Stream text
-          setAnswer((prev) => prev + data.data);
+          setAnswer((prev) => prev + event.data);
         }
       }});
+    
   };
   
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
