@@ -8,7 +8,15 @@ const nextConfig = {
         hostname: "**"
       }
     ]
-  }
+  },
+  webpack(config) {
+    config.experiments = {
+      asyncWebAssembly: true,
+      layers: true,
+    };
+
+    return config;
+  },
 };
 
 module.exports = nextConfig;
