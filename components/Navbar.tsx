@@ -9,7 +9,7 @@ export const Navbar: FC = () => {
       <div className="font-bold text-2xl flex items-center">
         <a
           className="flex hover:opacity-50 items-center"
-          href="https://wait-but-why-gpt.vercel.app"
+          href="https://lex-gpt.fly.dev/"
         >
           <Image
             className="hidden sm:flex"
