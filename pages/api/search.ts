@@ -21,7 +21,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse<Data>) => {
         environment: "us-west4-gcp",
         apiKey: process.env.PINECONE_API_KEY ?? "",
       });
-      const index = pinecone.Index("tax-gpt");
+      const index = pinecone.Index("custom");
       const vectorStore = await PineconeStore.fromExistingIndex(
         new OpenAIEmbeddings(), {pineconeIndex: index},
       );

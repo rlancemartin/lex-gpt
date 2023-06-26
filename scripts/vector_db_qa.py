@@ -1,8 +1,10 @@
 import pinecone
 import os
 import time
+from pathlib import Path
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
+from langchain.document_loaders import PyPDFLoader
 from langchain.document_loaders import TextLoader
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.prompts.chat import (
@@ -11,30 +13,33 @@ from langchain.prompts.chat import (
     SystemMessagePromptTemplate,
 )
 from langchain.text_splitter import CharacterTextSplitter
-from langchain.vectorstores import Chroma, Pinecone
+from langchain.vectorstores import Pinecone
+from tqdm import tqdm
 
-loader = TextLoader("busines_tax_split.txt")
-documents = loader.load()
 
-text_splitter = CharacterTextSplitter(chunk_size=200, chunk_overlap=0)
+dir = Path('../custom/data/Merged')
+paths = [p for p in dir.glob('**/*.pdf')]
+# random sample 500 pdf files under dir
+import random
+paths = random.sample(paths, 10)
+loaders = [(p, PyPDFLoader(str(p))) for p in paths]
+documents = []
+for path, loader in tqdm(loaders):
+    try:
+        doc = loader.load()
+    except:
+        print(f"Error loading {path}")
+        continue
+    for d in doc:
+        d.metadata['id'] = path.stem
+        d.metadata['flno'] = path.stem
+        d.metadata['title'] = path.stem
+        d.metadata['link'] = "https://d8ai.com/"
+        d.metadata['category'] = path.parts[4]
+    documents.extend(doc)
+
+text_splitter = CharacterTextSplitter.from_tiktoken_encoder(chunk_size=2000, chunk_overlap=0)
 texts = text_splitter.split_documents(documents)
-
-# add meta data
-# metadata: {"source":title + " " +link,"id":episode_id,"link":link,"title":title}
-for i, doc in enumerate(texts):
-    title = doc.page_content.splitlines()[0].strip()
-    flno = title[1:-1].strip()
-    if "章" in title:
-        link = "https://law.moj.gov.tw/LawClass/LawAll.aspx?pcode=G0340080"
-    else:
-        link = f"https://law.moj.gov.tw/LawClass/LawSingle.aspx?pcode=G0340080&flno={flno}",
-    doc.metadata = {
-            "source": "法規資料庫-加值型及非加值型營業稅法",
-            "id": i,
-            "flno": flno,
-            "title": title,
-            "link": link,
-        }
 
 # print how many documents we have
 print(f"Number of documents: {len(texts)}")
@@ -47,11 +52,10 @@ pinecone.init(
     environment="us-west4-gcp",  # next to api key in console
 )
 
-index = pinecone.Index("tax-gpt")
+index_name = "custom"
+index = pinecone.Index(index_name)
 
-index_name = "tax-gpt"
-
-create_new = True
+create_new = False
 # Delete vectors if it already exists
 if create_new:
     try:

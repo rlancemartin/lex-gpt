@@ -51,7 +51,7 @@ export default function Home() {
     setChunks(results);
 
     // Prompt for LLM summarization
-    const prompt = `使用以下法規片段來回答用戶的問題。如果您不知道答案，只需說不知道即可，不要試圖編造答案。將您的答案保持在五句以下。答案要是繁體中文、要準確、有幫助、簡明明確。使用以下段落來回答查詢："${query}"`
+    const prompt = `使用以下範例片段來回答用戶的問題。如果您不知道答案，只需說不知道即可，不要試圖編造答案。將您的答案保持在五句以下。答案要是繁體中文、要準確、有幫助、簡明明確。使用以下段落來回答查詢："${query}" 用戶的問題: 請問我的產品要報哪一種關稅？`
     const ctrl = new AbortController();
     
     fetchEventSource("/api/vectordbqa",  {
@@ -112,7 +112,7 @@ export default function Home() {
         <title>Business Tax GPT</title>
         <meta
           name="description"
-          content={`營業稅法問答`}
+          content={`關稅問答`}
         />
         <meta
           name="viewport"
@@ -180,7 +180,7 @@ export default function Home() {
                   ref={inputRef}
                   className="h-12 w-full rounded-full border border-zinc-600 pr-12 pl-11 focus:border-zinc-800 focus:outline-none focus:ring-1 focus:ring-zinc-800 sm:h-16 sm:py-2 sm:pr-16 sm:pl-16 sm:text-lg"
                   type="text"
-                  placeholder="扣繳義務人於給付所得時，未依規定扣繳稅款，會受到什麼處罰？"
+                  placeholder="產品說明"
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
@@ -284,7 +284,7 @@ export default function Home() {
                 ))}
               </div>
             ) : (
-              <div className="mt-6 text-center text-lg">{`營業稅法問答`}</div>
+              <div className="mt-6 text-center text-lg">{`關稅問答`}</div>
             )}
           </div>
         </div>

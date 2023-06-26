@@ -1,0 +1,55 @@
+<component name="InspectionProjectProfileManager">
+  <profile version="1.0">
+    <option name="myName" value="Project Default" />
+    <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
+    <inspection_tool class="PyPackageRequirementsInspection" enabled="true" level="WARNING" enabled_by_default="true">
+      <option name="ignoredPackages">
+        <value>
+          <list size="41">
+            <item index="0" class="java.lang.String" itemvalue="jinja2" />
+            <item index="1" class="java.lang.String" itemvalue="shyaml" />
+            <item index="2" class="java.lang.String" itemvalue="alexa_prize_cobot_sdk-4.0.2-py2.py3-none-any.whl" />
+            <item index="3" class="java.lang.String" itemvalue="alexa_prize_cobot_sdk-4.0.5-py2.py3-none-any.whl" />
+            <item index="4" class="java.lang.String" itemvalue="requests" />
+            <item index="5" class="java.lang.String" itemvalue="pytz" />
+            <item index="6" class="java.lang.String" itemvalue="MultiWOZ-Evaluation" />
+            <item index="7" class="java.lang.String" itemvalue="wandb" />
+            <item index="8" class="java.lang.String" itemvalue="textstat" />
+            <item index="9" class="java.lang.String" itemvalue="tokenizers" />
+            <item index="10" class="java.lang.String" itemvalue="scipy" />
+            <item index="11" class="java.lang.String" itemvalue="transformers" />
+            <item index="12" class="java.lang.String" itemvalue="torch" />
+            <item index="13" class="java.lang.String" itemvalue="datasets" />
+            <item index="14" class="java.lang.String" itemvalue="numpy" />
+            <item index="15" class="java.lang.String" itemvalue="spacytextblob" />
+            <item index="16" class="java.lang.String" itemvalue="pandas" />
+            <item index="17" class="java.lang.String" itemvalue="tqdm" />
+            <item index="18" class="java.lang.String" itemvalue="spacy" />
+            <item index="19" class="java.lang.String" itemvalue="matplotlib" />
+            <item index="20" class="java.lang.String" itemvalue="accelerate" />
+            <item index="21" class="java.lang.String" itemvalue="tzdata" />
+            <item index="22" class="java.lang.String" itemvalue="tiktoken" />
+            <item index="23" class="java.lang.String" itemvalue="protobuf" />
+            <item index="24" class="java.lang.String" itemvalue="mecab-python3" />
+            <item index="25" class="java.lang.String" itemvalue="gradio" />
+            <item index="26" class="java.lang.String" itemvalue="flash-attn" />
+            <item index="27" class="java.lang.String" itemvalue="unidic-lite" />
+            <item index="28" class="java.lang.String" itemvalue="rouge_score" />
+            <item index="29" class="java.lang.String" itemvalue="markupsafe" />
+            <item index="30" class="java.lang.String" itemvalue="bitsandbytes" />
+            <item index="31" class="java.lang.String" itemvalue="termcolor" />
+            <item index="32" class="java.lang.String" itemvalue="deepspeed" />
+            <item index="33" class="java.lang.String" itemvalue="peft" />
+            <item index="34" class="java.lang.String" itemvalue="alpaca-farm" />
+            <item index="35" class="java.lang.String" itemvalue="fire" />
+            <item index="36" class="java.lang.String" itemvalue="auto-gptq" />
+            <item index="37" class="java.lang.String" itemvalue="einops" />
+            <item index="38" class="java.lang.String" itemvalue="evaluate" />
+            <item index="39" class="java.lang.String" itemvalue="jsonlines" />
+            <item index="40" class="java.lang.String" itemvalue="langchain" />
+          </list>
+        </value>
+      </option>
+    </inspection_tool>
+  </profile>
+</component>
